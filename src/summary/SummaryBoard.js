@@ -6,6 +6,8 @@ import History from '../component/History';
 import './SummaryBoard';
 import './SummaryBoard.css';
 import { trackPromise } from 'react-promise-tracker';
+import StatusTitle from '../component/StatusTitle';
+import Dependency from '../component/Dependency';
 
 class SummaryBoard extends Component {
   maxHistory = 50;
@@ -16,6 +18,7 @@ class SummaryBoard extends Component {
       projects: [],
       nowDate: new Date(),
       histories: [],
+      dep: '',
     };
 
     this.getSummary = this.getSummary.bind(this);
@@ -38,6 +41,15 @@ class SummaryBoard extends Component {
     }
   }
 
+  getDependency = async () => {
+    const {
+      data: { dependency },
+    } = await axios.get(this.basicUrl + '/dependency');
+    console.log(dependency);
+
+    this.setState({ dep: dependency });
+  };
+
   getSummary = async () => {
     this.doPending();
     const {
@@ -48,7 +60,12 @@ class SummaryBoard extends Component {
     this.doIdle();
   };
 
+  refresh = async () => {
+    this.getSummary().finally(() => this.getDependency());
+  };
+
   componentDidMount() {
+    this.getDependency();
     this.getSummary();
   }
 
@@ -89,7 +106,9 @@ class SummaryBoard extends Component {
               histories: historyArr,
             });
           })
-          .finally(() => this.doIdle()),
+          .finally(() => {
+            this.getDependency().finally(() => this.doIdle());
+          }),
       );
     };
   }
@@ -105,22 +124,19 @@ class SummaryBoard extends Component {
       <section>
         <div className="container">
           <h1 className="manager">SmartSee Server Manager</h1>
-          <Refresh
-            refresh={this.getSummary}
-            nowDate={nowDate.toLocaleString()}
-            isPending={isPending}
-          />
+          <div className="refresh-bar">
+            <Dependency dep={this.state.dep} />
+            <Refresh
+              refresh={this.refresh}
+              nowDate={nowDate.toLocaleString()}
+              isPending={isPending}
+            />
+          </div>
 
           {
             <>
               <div className="status-box">
-                <div className="item-title">
-                  <span className="item">project</span>
-                  <span className="item">status</span>
-                  <span className="item">pid</span>
-                  <span className="item">uptime</span>
-                  <span className="item">control</span>
-                </div>
+                <StatusTitle />
                 <div className="items">
                   {projects
                     .sort((p1, p2) => p1.project.localeCompare(p2.project))

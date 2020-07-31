@@ -13,7 +13,7 @@ export default (props) => {
           height: '100',
           position: 'absolute',
           left: 0,
-          top: 0,
+          top: 20,
         }}
       >
         <Loader type="ThreeDots" color="#2BAD60" height="100" width="100" />

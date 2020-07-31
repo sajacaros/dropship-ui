@@ -8,12 +8,12 @@ const ButtonWithPending = withPending(<Button disabled>pending</Button>)(Button)
 
 function Refresh({ refresh, nowDate, isPending }) {
   return (
-    <div className="info">
+    <span className="info">
       <span className="info-item">{nowDate}</span>
       <ButtonWithPending isPending={isPending} onPress={() => refresh()}>
         refresh
       </ButtonWithPending>
-    </div>
+    </span>
   );
 }
 
