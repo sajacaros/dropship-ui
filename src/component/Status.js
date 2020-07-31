@@ -12,13 +12,24 @@ import { Consumer as ModalConsumer } from '../modal/ModalContext';
 
 const ButtonWithPending = withPending(<Button disabled>pending</Button>)(Button);
 
-function Status({ project, status, pid = '-', uptime = '-', startF, stopF, updateF, isPending }) {
+function Status({
+  project,
+  status,
+  pid = '-',
+  uptime = '-',
+  version,
+  startF,
+  stopF,
+  updateF,
+  isPending,
+}) {
   return (
     <div className="status">
       <span className="item">{project}</span>
       <span className="item">{status}</span>
       <span className="item">{status === 'Down' ? '-' : pid}</span>
       <span className="item">{status === 'Down' ? '-' : uptime}</span>
+      <span className="item">{status === 'Down' ? '-' : version}</span>
       <span className="item">
         <ModalProviderWithKey>
           <ModalConsumer>

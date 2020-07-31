@@ -148,6 +148,7 @@ class SummaryBoard extends Component {
                         status={project.status}
                         uptime={project.uptime}
                         pid={project.pid}
+                        version={project.version}
                         startF={this.start}
                         stopF={this.stop}
                         updateF={this.update}

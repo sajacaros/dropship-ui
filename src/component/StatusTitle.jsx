@@ -7,6 +7,7 @@ function StatusTitle() {
       <span className="item">status</span>
       <span className="item">pid</span>
       <span className="item">uptime</span>
+      <span className="item">version</span>
       <span className="item">control</span>
     </div>
   );
