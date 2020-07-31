@@ -1,8 +1,8 @@
 .status {
   display: flex;
   justify-content: space-around;
-  padding-bottom: 20px;
-  padding-top: 20px;
+  padding-bottom: 10px;
+  padding-top: 10px;
   border-bottom: 1px;
   border-bottom-style: dashed;
   border-bottom-color: rgb(155, 120, 120);
@@ -12,14 +12,6 @@
   background-color: lightgray;
   color: white;
   cursor: grabbing;
-}
-
-.item {
-  width: 100px;
-}
-
-button {
-  width: 80px;
 }
 
 button:hover {

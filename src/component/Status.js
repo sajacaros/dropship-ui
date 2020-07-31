@@ -19,36 +19,36 @@ function Status({ project, status, pid = '-', uptime = '-', startF, stopF, updat
       <span className="item">{status}</span>
       <span className="item">{status === 'Down' ? '-' : pid}</span>
       <span className="item">{status === 'Down' ? '-' : uptime}</span>
-      <ModalProviderWithKey>
-        <ModalConsumer>
-          {({ openModal }) => (
-            <ButtonWithPending
-              isPending={isPending}
-              className="item"
-              onPress={
-                status === 'Down'
-                  ? () => openModal(START_MODAL, { project, startF })
-                  : () => openModal(STOP_MODAL, { project, stopF })
-              }
-            >
-              {status === 'Down' ? 'start' : 'stop'}
-            </ButtonWithPending>
-          )}
-        </ModalConsumer>
-      </ModalProviderWithKey>
-      <ModalProviderWithKey>
-        <ModalConsumer>
-          {({ openModal }) => (
-            <ButtonWithPending
-              isPending={isPending}
-              className="item"
-              onPress={() => openModal(UPDATE_MODAL, { project, updateF })}
-            >
-              update
-            </ButtonWithPending>
-          )}
-        </ModalConsumer>
-      </ModalProviderWithKey>
+      <span className="item">
+        <ModalProviderWithKey>
+          <ModalConsumer>
+            {({ openModal }) => (
+              <ButtonWithPending
+                isPending={isPending}
+                onPress={
+                  status === 'Down'
+                    ? () => openModal(START_MODAL, { project, startF })
+                    : () => openModal(STOP_MODAL, { project, stopF })
+                }
+              >
+                {status === 'Down' ? 'start' : 'stop'}
+              </ButtonWithPending>
+            )}
+          </ModalConsumer>
+        </ModalProviderWithKey>
+        <ModalProviderWithKey>
+          <ModalConsumer>
+            {({ openModal }) => (
+              <ButtonWithPending
+                isPending={isPending}
+                onPress={() => openModal(UPDATE_MODAL, { project, updateF })}
+              >
+                update
+              </ButtonWithPending>
+            )}
+          </ModalConsumer>
+        </ModalProviderWithKey>
+      </span>
     </div>
   );
 }

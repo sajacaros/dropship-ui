@@ -1,11 +1,12 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { css } from '../hoc/withStyles';
 
 class Button extends PureComponent {
   render() {
     const { children, onPress, disabled } = this.props;
     return (
-      <button width="80px" disabled={disabled} onClick={onPress}>
+      <button disabled={disabled} onClick={onPress} {...css({ margin: '1px' })}>
         {children}
       </button>
     );

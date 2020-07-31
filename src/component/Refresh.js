@@ -10,7 +10,7 @@ function Refresh({ refresh, nowDate, isPending }) {
   return (
     <div className="info">
       <span className="info-item">{nowDate}</span>
-      <ButtonWithPending isPending={isPending} className="info-item" onPress={() => refresh()}>
+      <ButtonWithPending isPending={isPending} onPress={() => refresh()}>
         refresh
       </ButtonWithPending>
     </div>

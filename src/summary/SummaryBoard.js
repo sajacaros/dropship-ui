@@ -12,7 +12,6 @@ class SummaryBoard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: true,
       isPending: false,
       projects: [],
       nowDate: new Date(),
@@ -45,7 +44,7 @@ class SummaryBoard extends Component {
       data: { projects },
     } = await axios.get(this.basicUrl + '/summary');
 
-    this.setState({ projects, isLoading: false, nowDate: new Date() });
+    this.setState({ projects, nowDate: new Date() });
     this.doIdle();
   };
 
@@ -100,42 +99,52 @@ class SummaryBoard extends Component {
   update = this.controlEndpoint('update');
 
   render() {
-    const { projects, isLoading, nowDate, isPending } = this.state;
+    const { projects, nowDate, isPending } = this.state;
 
     return (
-      <>
-        <section className="container">
+      <section>
+        <div className="container">
+          <h1 className="manager">SmartSee Server Manager</h1>
           <Refresh
             refresh={this.getSummary}
             nowDate={nowDate.toLocaleString()}
             isPending={isPending}
           />
-          {isLoading ? (
-            <div className="loader">
-              <span className="loader_text">'Loading...'</span>
-            </div>
-          ) : (
-            <div className="items">
-              {projects
-                .sort((p1, p2) => p1.project.localeCompare(p2.project))
-                .map((project) => (
-                  <Status
-                    key={project.project}
-                    project={project.project}
-                    status={project.status}
-                    uptime={project.uptime}
-                    pid={project.pid}
-                    startF={this.start}
-                    stopF={this.stop}
-                    updateF={this.update}
-                    isPending={isPending}
-                  />
-                ))}
-              <History histories={this.state.histories} />
-            </div>
-          )}
-        </section>
-      </>
+
+          {
+            <>
+              <div className="status-box">
+                <div className="item-title">
+                  <span className="item">project</span>
+                  <span className="item">status</span>
+                  <span className="item">pid</span>
+                  <span className="item">uptime</span>
+                  <span className="item">control</span>
+                </div>
+                <div className="items">
+                  {projects
+                    .sort((p1, p2) => p1.project.localeCompare(p2.project))
+                    .map((project) => (
+                      <Status
+                        className="item"
+                        key={project.project}
+                        project={project.project}
+                        status={project.status}
+                        uptime={project.uptime}
+                        pid={project.pid}
+                        startF={this.start}
+                        stopF={this.stop}
+                        updateF={this.update}
+                        isPending={isPending}
+                      />
+                    ))}
+                </div>
+                <History histories={this.state.histories} />
+              </div>
+            </>
+          }
+        </div>
+      </section>
     );
   }
 }

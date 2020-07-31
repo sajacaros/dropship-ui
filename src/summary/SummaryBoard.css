@@ -1,13 +1,39 @@
+section {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.container {
+  width: 1024px;
+  display: flex;
+  flex-direction: column;
+}
+
 .items {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.item-title {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid navajowhite;
+}
+.status-box {
   border: 1px solid navajowhite;
-  padding-right: 20px;
-  padding-left: 20px;
+}
+
+.item {
+  flex: 1;
   padding-bottom: 5px;
 }
 
-.container {
-  width: 800px;
+.manager {
+  font-style: italic;
+  font-size: 2em;
+  text-decoration: underline;
+  margin-block-start: 0.5em;
+  margin-block-end: 0.5em;
 }
