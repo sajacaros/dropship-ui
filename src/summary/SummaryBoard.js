@@ -5,6 +5,7 @@ import Refresh from '../component/Refresh';
 import History from '../component/History';
 import './SummaryBoard';
 import './SummaryBoard.css';
+import { trackPromise } from 'react-promise-tracker';
 
 class SummaryBoard extends Component {
   maxHistory = 50;
@@ -63,32 +64,34 @@ class SummaryBoard extends Component {
   controlEndpoint(command) {
     return async (project) => {
       this.doPending();
-      await axios
-        .post(this.basicUrl + '/' + project + '/' + command)
-        .then(() => {
-          const historyArr = this.pushHistory({
-            occuredDate: new Date(),
-            project,
-            command,
-            result: true,
-          });
-          this.setState({
-            histories: historyArr,
-          });
-          this.getSummary();
-        })
-        .catch((error) => {
-          const historyArr = this.pushHistory({
-            occuredDate: new Date(),
-            project,
-            command,
-            result: false,
-          });
-          this.setState({
-            histories: historyArr,
-          });
-        })
-        .finally(() => this.doIdle());
+      await trackPromise(
+        axios
+          .post(this.basicUrl + '/' + project + '/' + command)
+          .then(() => {
+            const historyArr = this.pushHistory({
+              occuredDate: new Date(),
+              project,
+              command,
+              result: true,
+            });
+            this.setState({
+              histories: historyArr,
+            });
+            this.getSummary();
+          })
+          .catch((error) => {
+            const historyArr = this.pushHistory({
+              occuredDate: new Date(),
+              project,
+              command,
+              result: false,
+            });
+            this.setState({
+              histories: historyArr,
+            });
+          })
+          .finally(() => this.doIdle()),
+      );
     };
   }
 
@@ -100,37 +103,39 @@ class SummaryBoard extends Component {
     const { projects, isLoading, nowDate, isPending } = this.state;
 
     return (
-      <section className="container">
-        <Refresh
-          refresh={this.getSummary}
-          nowDate={nowDate.toLocaleString()}
-          isPending={isPending}
-        />
-        {isLoading ? (
-          <div className="loader">
-            <span className="loader_text">'Loading...'</span>
-          </div>
-        ) : (
-          <div className="items">
-            {projects
-              .sort((p1, p2) => p1.project.localeCompare(p2.project))
-              .map((project) => (
-                <Status
-                  key={project.project}
-                  project={project.project}
-                  status={project.status}
-                  uptime={project.uptime}
-                  pid={project.pid}
-                  startF={this.start}
-                  stopF={this.stop}
-                  updateF={this.update}
-                  isPending={isPending}
-                />
-              ))}
-            <History histories={this.state.histories} />
-          </div>
-        )}
-      </section>
+      <>
+        <section className="container">
+          <Refresh
+            refresh={this.getSummary}
+            nowDate={nowDate.toLocaleString()}
+            isPending={isPending}
+          />
+          {isLoading ? (
+            <div className="loader">
+              <span className="loader_text">'Loading...'</span>
+            </div>
+          ) : (
+            <div className="items">
+              {projects
+                .sort((p1, p2) => p1.project.localeCompare(p2.project))
+                .map((project) => (
+                  <Status
+                    key={project.project}
+                    project={project.project}
+                    status={project.status}
+                    uptime={project.uptime}
+                    pid={project.pid}
+                    startF={this.start}
+                    stopF={this.stop}
+                    updateF={this.update}
+                    isPending={isPending}
+                  />
+                ))}
+              <History histories={this.state.histories} />
+            </div>
+          )}
+        </section>
+      </>
     );
   }
 }

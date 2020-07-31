@@ -11,7 +11,7 @@
 .status:hover {
   background-color: lightgray;
   color: white;
-  cursor: grab;
+  cursor: grabbing;
 }
 
 .item {
