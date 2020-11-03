@@ -60,8 +60,16 @@ class SummaryBoard extends Component {
     this.doIdle();
   };
 
+  getSync = async () => {
+    await axios.post(this.basicUrl + '/sync');
+  };
+
   refresh = async () => {
     this.getSummary().finally(() => this.getDependency());
+  };
+
+  sync = async () => {
+    this.getSync().finally(() => this.refresh());
   };
 
   componentDidMount() {
@@ -128,6 +136,7 @@ class SummaryBoard extends Component {
             <Dependency dep={this.state.dep} />
             <Refresh
               refresh={this.refresh}
+              sync={this.sync}
               nowDate={nowDate.toLocaleString()}
               isPending={isPending}
             />
