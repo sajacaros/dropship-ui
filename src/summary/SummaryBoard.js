@@ -69,7 +69,9 @@ class SummaryBoard extends Component {
   };
 
   sync = async () => {
+    this.doPending();
     this.getSync().finally(() => this.refresh());
+    this.doIdle();
   };
 
   componentDidMount() {
