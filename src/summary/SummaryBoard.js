@@ -134,6 +134,9 @@ class SummaryBoard extends Component {
       <section>
         <div className="container">
           <h1 className="manager">SmartSee Server Manager</h1>
+          <h2 className="sequence">
+            참고용 : [battery,observatory]-nexus-sunken-command-[cybernetics,nydus,overlord]
+          </h2>
           <div className="refresh-bar">
             <Dependency dep={this.state.dep} />
             <Refresh
@@ -143,34 +146,29 @@ class SummaryBoard extends Component {
               isPending={isPending}
             />
           </div>
-
-          {
-            <>
-              <div className="status-box">
-                <StatusTitle />
-                <div className="items">
-                  {projects
-                    .sort((p1, p2) => p1.project.localeCompare(p2.project))
-                    .map((project) => (
-                      <Status
-                        className="item"
-                        key={project.project}
-                        project={project.project}
-                        status={project.status}
-                        uptime={project.uptime}
-                        pid={project.pid}
-                        version={project.version}
-                        startF={this.start}
-                        stopF={this.stop}
-                        updateF={this.update}
-                        isPending={isPending}
-                      />
-                    ))}
-                </div>
-                <History histories={this.state.histories} />
-              </div>
-            </>
-          }
+          <div className="status-box">
+            <StatusTitle />
+            <div className="items">
+              {projects
+                .sort((p1, p2) => p1.project.localeCompare(p2.project))
+                .map((project) => (
+                  <Status
+                    className="item"
+                    key={project.project}
+                    project={project.project}
+                    status={project.status}
+                    uptime={project.uptime}
+                    pid={project.pid}
+                    version={project.version}
+                    startF={this.start}
+                    stopF={this.stop}
+                    updateF={this.update}
+                    isPending={isPending}
+                  />
+                ))}
+            </div>
+            <History histories={this.state.histories} />
+          </div>
         </div>
       </section>
     );

@@ -43,3 +43,11 @@ section {
   margin-block-start: 0.5em;
   margin-block-end: 0.5em;
 }
+
+.sequence {
+  font-style: italic;
+  font-size: 1em;
+  text-decoration: underline;
+  margin-block-start: 0.5em;
+  margin-block-end: 0.5em;
+}
